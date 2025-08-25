@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Anúncios</h1>
+        <a href="{{ url_for('create_announcement') }}" class="btn btn-primary">Novo Anúncio</a>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Título</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Categoria</th>
+                <th scope="col" class="text-end">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for announcement in announcements %}
+            <tr>
+                <td>{{ announcement.title }}</td>
+                <td>R$ {{ "%.2f"|format(announcement.price) }}</td>
+                <td>{{ announcement.category.name }}</td>
+                <td class="text-end">
+                    <a href="{{ url_for('edit_announcement', id=announcement.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                    <button class="btn btn-sm btn-danger" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#deleteModal" 
+                            data-url="{{ url_for('delete_announcement', id=announcement.id) }}">
+                        Excluir
+                    </button>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center">Nenhum anúncio encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% include '_delete_modal.html' %}
+{% endblock %}

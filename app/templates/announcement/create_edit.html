@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <form method="POST" action="" novalidate>
+        {{ form.hidden_tag() }} <!-- Proteção CSRF, essencial -->
+
+        <div class="mb-3">
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control", size=32) }}
+            {% for error in form.title.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-control", rows=4) }}
+            {% for error in form.description.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form.price.label(class="form-label") }}
+                {{ form.price(class="form-control") }}
+                 {% for error in form.price.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.category.label(class="form-label") }}
+                <!-- A classe 'form-select' é específica do Bootstrap para campos de seleção -->
+                {{ form.category(class="form-select") }}
+                 {% for error in form.category.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('list_announcements') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}
